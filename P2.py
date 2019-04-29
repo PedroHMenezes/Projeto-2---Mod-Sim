@@ -30,7 +30,7 @@ I = 4640/24 * A1
 lista_condicao=[300]
 #funcao_dTdt
 
-def var_T(lis_cond,t):
+def var_T(lis_cond,t,P):
     Tcel=lis_cond[0]    
     Q = ((d/(km * A1)) + (1/(h * A1)) * (1/(h*A2)))
     divQ = (d/(km * A1)) + (1/(h * A1)) + (1/(h * A2))
@@ -41,7 +41,7 @@ def var_T(lis_cond,t):
 
 
 #grafico_temperatura
-lista_grafico= odeint(var_T,lista_condicao,tempo)
+lista_grafico= odeint(var_T,lista_condicao,tempo,args=(P,))
 
 #Ajuste do gráfico
 lista_C=[]
@@ -56,11 +56,31 @@ for i in range(0,len(lista_C)):
         print(lista_minutos[i])
         break
         
-#plotando gráfico
-plt.plot(lista_minutos,lista_C,color='red',label='Temperatura')
-plt.xlabel("Tempo em segundos")
-plt.ylabel("Temperatura em °C")
-plt.title("Temperatura por tempo")
+# Criando lista de potencias
+Pot=[2,3,4,5,6]
+tempo_maximo=[]
+# Plotando potencia por tempo
+for i in Pot:
+    i=0
+    grafico_pot= odeint (var_T,lista_condicao,tempo,args=(i,))
+    for j in range(0,len(grafico_pot)):
+        if grafico_pot[j]>=323 and j==0:
+            tempo_maximo.append(tempo[j])
+            j+=1
+plt.plot(Pot,tempo_maximo,'ro')
+plt.xlabel("Potência do processor (W)")
+plt.ylabel("Tempo para superaquecimento")
 plt.grid(True)
-plt.legend()
 plt.show()
+            
+            
+    
+    
+#plotando gráfico
+#plt.plot(lista_minutos,lista_C,color='red',label='Temperatura')
+#plt.xlabel("Tempo em segundos")
+#plt.ylabel("Temperatura em °C")
+#plt.title("Temperatura por tempo")
+#plt.grid(True)
+#plt.legend()
+#plt.show()
