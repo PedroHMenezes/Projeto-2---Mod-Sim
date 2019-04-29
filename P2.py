@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 #lista tempo
 delta_t=0.001
-tempo=np.arange(0,1800,delta_t)
+tempo=np.arange(0,2700,delta_t)
 
 #variáveis
 m=152
@@ -24,13 +24,13 @@ h=10
 d=2.5e-2
 Tsol=5778
 P=3.94
-Tamb=293
+Tamb=283
 I = 4640/24 * A1
 #lista_condição_inicial
 lista_condicao=[300]
 #funcao_dTdt
 
-def var_T(lis_cond,t,P):
+def var_T(lis_cond,t,Tamb):
     Tcel=lis_cond[0]    
     Q = ((d/(km * A1)) + (1/(h * A1)) * (1/(h*A2)))
     divQ = (d/(km * A1)) + (1/(h * A1)) + (1/(h * A2))
@@ -39,36 +39,30 @@ def var_T(lis_cond,t,P):
     dTdt = (1/(m*c)) * (I+P-(Qsaida*(Tcel - Tamb)))
     return dTdt
 
-
-#grafico_temperatura
-lista_grafico= odeint(var_T,lista_condicao,tempo,args=(P,))
-
-#Ajuste do gráfico
-lista_C=[]
-for i in lista_grafico:
-    lista_C.append(i-273)
-lista_minutos=[]
-for i in tempo:
-    lista_minutos.append(i/60)
-#Atingindo temperatura de superaquecimento
-for i in range(0,len(lista_C)):
-    if lista_C[i]>=50:
-        print(lista_minutos[i])
-        break
-        
 # Criando lista de potencias
-Pot=[2,3,4,5,6]
+lista_Tamb=[]
+z=283
+while z<313:
+    lista_Tamb.append(z)
+    z+=1
 tempo_maximo=[]
 # Plotando potencia por tempo
-for i in Pot:
-    i=0
-    grafico_pot= odeint (var_T,lista_condicao,tempo,args=(i,))
-    for j in range(0,len(grafico_pot)):
-        if grafico_pot[j]>=323 and j==0:
-            tempo_maximo.append(tempo[j])
+for i in lista_Tamb:
+    j=0
+    grafico_Tamb= odeint (var_T,lista_condicao,tempo,args=(i,))
+    for g in range(0,len(grafico_Tamb)):
+        if grafico_Tamb[g]>=323 and j==0:
+            tempo_maximo.append(tempo[g])
             j+=1
-plt.plot(Pot,tempo_maximo,'ro')
-plt.xlabel("Potência do processor (W)")
+lista_C=[]
+lista_minutos=[]
+for i in lista_Tamb:
+    lista_C.append(i-273)
+lista_minutos=[]
+for i in tempo_maximo:
+    lista_minutos.append(i/60)
+plt.plot(lista_C,lista_minutos,'ro')
+plt.xlabel("Temperatura ambiente")
 plt.ylabel("Tempo para superaquecimento")
 plt.grid(True)
 plt.show()
