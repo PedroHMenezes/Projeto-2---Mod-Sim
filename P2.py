@@ -47,10 +47,20 @@ lista_grafico= odeint(var_T,lista_condicao,tempo)
 lista_C=[]
 for i in lista_grafico:
     lista_C.append(i-273)
+lista_minutos=[]
+for i in tempo:
+    lista_minutos.append(i/60)
+#Atingindo temperatura de superaquecimento
+for i in range(0,len(lista_C)):
+    if lista_C[i]>=50:
+        print(lista_minutos[i])
+        break
+        
 #plotando gráfico
-plt.plot(tempo,lista_C,color='red',label='Temperatura')
+plt.plot(lista_minutos,lista_C,color='red',label='Temperatura')
 plt.xlabel("Tempo em segundos")
 plt.ylabel("Temperatura em °C")
+plt.title("Temperatura por tempo")
 plt.grid(True)
 plt.legend()
 plt.show()
