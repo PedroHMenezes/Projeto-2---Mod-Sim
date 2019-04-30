@@ -13,19 +13,17 @@ delta_t=0.001
 tempo=np.arange(0,2700,delta_t)
 
 #constantes
-m=152
-e=0.95
-sigma=5.67e-8
-A1 = 106.56e-4
-A2 = (0.0079 * 0.069)*2 + (0.0079 * 0.142) * 2
-c = 0.7
-km = 1.68
-h=10
-d=2.5e-2
-Tsol=5778
-P=3.94
-Tamb=283
-I = 4640/24 * A1
+m=152                                               #Massa do celular
+e=0.95                                              #Emissividade
+sigma=5.67e-8                                       #Constante de Stefan-Boltzmann
+A1 = 106.56e-4                                      #Área superior do celular
+A2 = (0.0079 * 0.069)*2 + (0.0079 * 0.142) * 2      #Área dos lados e da parte superior do celular
+c = 0.7                                             #Calor específico do celular
+km = 1.68                                           #Condutividade térmica da madeira
+h=10                                                #Coeficiente de transferência térmica convectiva do ar
+d=2.5e-2                                            #Espessura da mesa
+P=3.94                                              #Potência do processador do celular(Utilizando skype)
+I = 4640/24 * A1                                    #Irradiação recebida pelo celular
 
 #lista condição inicial
 lista_condicao=[300]
