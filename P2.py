@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 #lista tempo
 delta_t=0.001
-tempo=np.arange(0,2700,delta_t)
+tempo=np.arange(0,3600,delta_t)
 
 #constantes
 m=152
@@ -48,7 +48,7 @@ def var_T(lis_cond,t,Tamb):
 
 # Criando lista de potencias
 lista_Tamb=[]
-z=283
+z=288
 while z<313:
     lista_Tamb.append(z)
     z+=1
@@ -63,7 +63,7 @@ for i in lista_Tamb:
     grafico_Tamb= odeint (var_T,lista_condicao,tempo,args=(i,))
     #For utilizado para guardar o valor em que chega em 50°C
     for g in range(0,len(grafico_Tamb)):
-        if grafico_Tamb[g]>=323 and j==0:
+        if grafico_Tamb[g]>=328 and j==0:
             tempo_maximo.append(tempo[g])
             j+=1
 #Ajustando para plotar no gráfico
@@ -77,7 +77,8 @@ for i in tempo_maximo:
     lista_minutos.append(i/60)
 #Plotando 
 plt.plot(lista_C,lista_minutos,'ro')
-plt.xlabel("Temperatura ambiente")
-plt.ylabel("Tempo para superaquecimento")
+plt.xlabel("Temperatura ambiente(°C)")
+plt.ylabel("Tempo para superaquecimento(min)")
+plt.title("Tempo para superaquecimento em função temp. ambiente")
 plt.grid(True)
 plt.show()
