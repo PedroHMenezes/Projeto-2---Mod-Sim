@@ -10,20 +10,18 @@ import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 #lista tempo
 delta_t=0.001
-tempo=np.arange(0,3600,delta_t)
+tempo=np.arange(0,4400,delta_t)
 
 #constantes
-m=152                                               #Massa do celular
-e=0.95                                              #Emissividade
-sigma=5.67e-8                                       #Constante de Stefan-Boltzmann
-A1 = 106.56e-4                                      #Área superior do celular
-A2 = (0.0079 * 0.069)*2 + (0.0079 * 0.142) * 2      #Área dos lados e da parte superior do celular
-c = 0.7                                             #Calor específico do celular
-km = 1.68                                           #Condutividade térmica da madeira
-h=10                                                #Coeficiente de transferência térmica convectiva do ar
-d=2.5e-2                                            #Espessura da mesa
-P=3.94                                              #Potência do processador do celular(Utilizando skype)
-I = 4640/24 * A1                                    #Irradiação recebida pelo celular
+m=152                                                #Massa do celular
+A1 = 0.069*0.142                                     #Área superior do celular
+A2 = (0.0079 * 0.069)*2 + (0.0079 * 0.142) * 2 + A1  #Área dos lados e da parte superior do celular
+c = 0.7                                              #Calor específico do celular
+km = 0.14                                            #Condutividade térmica da madeira
+h=10                                                 #Coeficiente de transferência térmica convectiva do ar
+d=2.5e-2                                             #Espessura da mesa
+P=4.02                                               #Potência do processador do celular(Utilizando skype)
+I = 4640/24 * A1                                     #Irradiação recebida pelo celular
 
 #lista condição inicial
 lista_condicao=[300]
@@ -33,7 +31,7 @@ def var_T(lis_cond,t,Tamb):
     #Pega o primeiro termo da lista condições
     Tcel=lis_cond[0]    
     #Numerador da Resistência equivalente
-    Q = ((d/(km * A1)) + (1/(h * A1)) * (1/(h*A2)))
+    Q = ((d/(km * A1)) + (1/(h * A1))) * (1/(h*A2))
     #Denominador da Resistência equivalente
     divQ = (d/(km * A1)) + (1/(h * A1)) + (1/(h * A2))
     #Resistência equivalente
@@ -61,7 +59,7 @@ for i in lista_Tamb:
     grafico_Tamb= odeint (var_T,lista_condicao,tempo,args=(i,))
     #For utilizado para guardar o valor em que chega em 50°C
     for g in range(0,len(grafico_Tamb)):
-        if grafico_Tamb[g]>=328 and j==0:
+        if grafico_Tamb[g]>=323 and j==0:
             tempo_maximo.append(tempo[g])
             j+=1
 #Ajustando para plotar no gráfico
