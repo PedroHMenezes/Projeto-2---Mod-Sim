@@ -45,7 +45,7 @@ def var_T(lis_cond,t,Tamb):
 # Criando lista de potencias
 lista_Tamb=[]
 z=288
-while z<313:
+while z<323:
     lista_Tamb.append(z)
     z+=1
 #Lista que identifica o tempo máximo para plotar junto a Temp ambiente
